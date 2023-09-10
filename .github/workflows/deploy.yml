@@ -37,12 +37,6 @@ jobs:
       - name: Clear GitHub Actions cache
         run: |
           rm -rf ${{ runner.temp }}
-      
-      - name: Install dependencies with PNPM
-        run: |
-          mkdir -p ~/custom-store
-          pnpm install --store ~/custom-store
-
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
