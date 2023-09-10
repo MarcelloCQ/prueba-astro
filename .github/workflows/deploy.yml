@@ -27,7 +27,6 @@ jobs:
             node-version: 18.17.1 # La versión específica de Node que debe utilizarse para compilar tu proyecto. Por defecto es la 16. (opcional)
             package-manager: pnpm # El gestor de paquetes de Node que debe instalar las dependencias y compilar tu proyecto. Automáticamente detectadas con base en tu archivo lockfile. (opcional)
 
-
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -35,6 +34,15 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Clear GitHub Actions cache
+        run: |
+          rm -rf ${{ runner.temp }}
+      
+      - name: Install dependencies with PNPM
+        run: |
+          mkdir -p ~/custom-store
+          pnpm install --store ~/custom-store
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
